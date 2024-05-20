@@ -1,4 +1,4 @@
-package dm_xorm
+package dm
 
 import (
 	"errors"
