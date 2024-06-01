@@ -312,6 +312,10 @@ func (G2DB g2db) fromFloat64(val float64, param parameter, conn *DmConnection) (
 	return nil, ECGO_DATA_CONVERTION_ERROR.throw()
 }
 
+const (
+	Layout_Normal = "2006-01-02 15:04:05"
+)
+
 func (G2DB g2db) fromBytes(val []byte, param parameter, conn *DmConnection) (interface{}, error) {
 	switch param.colType {
 	case CHAR, VARCHAR2, VARCHAR:
@@ -332,7 +336,12 @@ func (G2DB g2db) fromBytes(val []byte, param parameter, conn *DmConnection) (int
 		}
 		return TypeDataSV.objBlobToBytes(val, param.typeDescriptor)
 	case DATE, DATETIME:
-		return val, nil
+		location, err := time.ParseInLocation(Layout_Normal, string(val), time.Local)
+		byTime, err := encodeByTime(location, param.column, *conn)
+		if err != nil {
+			return nil, err
+		}
+		return byTime, nil
 	}
 	return nil, ECGO_DATA_CONVERTION_ERROR.throw()
 }

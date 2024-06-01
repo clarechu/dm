@@ -700,7 +700,13 @@ func encodeArgs(stmt *DmStatement, args []driver.Value, firstRow bool) ([]interf
 				if len(v) >= VARBINARY_PREC {
 					dtype = BLOB
 				}
-				bindInParam(stmt, i, int32(dtype), firstRow)
+				switch stmt.bindParams[i].colType {
+				case DATE, DATETIME:
+					bindInParam(stmt, i, DATETIME, firstRow)
+				default:
+					bindInParam(stmt, i, DATETIME, firstRow)
+				}
+
 				bytes[i], err = G2DB.fromBytes(v, stmt.bindParams[i], stmt.dmConn)
 			}
 		case string:
