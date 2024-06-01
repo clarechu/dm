@@ -331,6 +331,8 @@ func (G2DB g2db) fromBytes(val []byte, param parameter, conn *DmConnection) (int
 			return nil, ECGO_DATA_CONVERTION_ERROR.throw()
 		}
 		return TypeDataSV.objBlobToBytes(val, param.typeDescriptor)
+	case DATE:
+		return val, nil
 	}
 	return nil, ECGO_DATA_CONVERTION_ERROR.throw()
 }
