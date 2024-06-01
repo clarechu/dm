@@ -704,7 +704,7 @@ func encodeArgs(stmt *DmStatement, args []driver.Value, firstRow bool) ([]interf
 				case DATE, DATETIME:
 					bindInParam(stmt, i, DATETIME, firstRow)
 				default:
-					bindInParam(stmt, i, DATETIME, firstRow)
+					bindInParam(stmt, i, int32(dtype), firstRow)
 				}
 
 				bytes[i], err = G2DB.fromBytes(v, stmt.bindParams[i], stmt.dmConn)
