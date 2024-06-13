@@ -317,11 +317,11 @@ func (G2DB g2db) fromBytes(val []byte, param parameter, conn *DmConnection) (int
 	case CHAR, VARCHAR2, VARCHAR:
 		return G2DB.toVarchar(val)
 	case CLOB:
-		b, err := G2DB.toVarchar(val)
+		/*b, err := G2DB.toVarchar(val)
 		if err != nil {
 			return nil, err
-		}
-		return G2DB.changeOffRowData(param, b, conn.getServerEncoding())
+		}*/
+		return G2DB.changeOffRowData(param, val, conn.getServerEncoding())
 	case BINARY, VARBINARY:
 		return val, nil
 	case BLOB:
